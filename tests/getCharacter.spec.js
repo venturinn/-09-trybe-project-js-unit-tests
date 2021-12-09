@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 /* eslint-disable no-unused-vars */
 
-const getCharacter = require('../src/getCharacter');
+const getCharacter = require("../src/getCharacter");
 
 /*
 Essa função recebe como parâmetro o nome de um personagem e retorna um objeto com seu nome, classe e frases.
@@ -41,9 +41,9 @@ Retorno:
 }
 */
 
-describe('9 - Implemente os casos de teste da função `getCharacter`', () => {
-  it('Verifica se a função `getCharacter` retorna o objeto do personagem corretamente.', () => {
-    fail('Teste vazio!');
+describe("9 - Implemente os casos de teste da função `getCharacter`", () => {
+  it("Verifica se a função `getCharacter` retorna o objeto do personagem corretamente.", () => {
+    // fail('Teste vazio!');
     // ESCREVA SEUS TESTES ABAIXO:
     // Teste se a função, quando não recebe nenhum parâmetro, retorna undefined.
     // Teste se a função retorna o objeto correto para o parâmetro 'Arya',
@@ -51,5 +51,37 @@ describe('9 - Implemente os casos de teste da função `getCharacter`', () => {
     // Teste se a função retorna o objeto correto para o parâmetro 'Melissandre',
     // Teste se os parâmetros não são Case Sensitive.
     // Teste se ao passar um nome que não está na tabela, a função retorna undefined.
+  });
+
+  it("Teste se a função, quando não recebe nenhum parâmetro, retorna undefined.", () => {
+    expect(getCharacter()).toBeUndefined();
+  });
+
+  it("Teste se a função retorna o objeto correto para o parâmetro Arya", () => {
+    expect(getCharacter("Arya")).toEqual(
+      expect.objectContaining({ name: "Arya Stark" })
+    );
+  });
+
+  it("Teste se a função retorna o objeto correto para o parâmetro Brienne", () => {
+    expect(getCharacter("Brienne")).toEqual(
+      expect.objectContaining({ name: "Brienne Tarth" })
+    );
+  });
+
+  it("Teste se a função retorna o objeto correto para o parâmetro Melissandre", () => {
+    expect(getCharacter("Melissandre")).toEqual(
+      expect.objectContaining({ name: "Melissandre" })
+    );
+  });
+
+  it("Teste se os parâmetros não são Case Sensitive", () => {
+    const upperCase = getCharacter("ARYA");
+    const lowerCase = getCharacter("arya");
+    expect(upperCase).toBe(lowerCase);
+  });
+
+  it("Teste se ao passar um nome que não está na tabela, a função retorna undefined.", () => {
+    expect(getCharacter("Venturin")).toBeUndefined();
   });
 });
