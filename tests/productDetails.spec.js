@@ -1,4 +1,4 @@
-const productDetails = require('../src/productDetails');
+const productDetails = require("../src/productDetails");
 
 /*
   Dadas duas strings que representam nomes de produtos, retorne um array contendo dois objetos com os detalhes dos respectivos produtos.
@@ -26,15 +26,36 @@ const productDetails = require('../src/productDetails');
 
 */
 
-describe('6 - Implemente os casos de teste para a função `productDetails`', () => {
-  it('Verifica se a função `productDetails` tem o comportamento esperado', () => {
-    fail('Teste vazio!');
+describe("6 - Implemente os casos de teste para a função `productDetails`", () => {
+  it("Verifica se a função `productDetails` tem o comportamento esperado", () => {
+    //fail('Teste vazio!');
     // ESCREVA SEUS TESTES ABAIXO:
+
     // Teste se productDetails é uma função.
+    expect(typeof productDetails).toEqual("function");
+
     // Teste se o retorno da função é um array.
+    expect(Array.isArray(productDetails())).toBe(true);
+
     // Teste se o array retornado pela função contém dois itens dentro.
+    expect(productDetails().length).toBe(2);
+
     // Teste se os dois itens dentro do array retornado pela função são objetos.
+    expect(typeof productDetails()[0]).toBe("object");
+    expect(typeof productDetails()[1]).toBe("object");
+
     // Teste se quando passado parâmetros diferentes entre si, os dois objetos também são diferentes entre si.
+    const result = productDetails('cerveja', 'leite');
+    expect(result[0]).not.toEqual(result[1]);
+
     // Teste se os dois productIds terminam com 123.
+    for (let i = 0; i < 2; i += 1) {
+      const lastWord = productDetails()[i].details.productId;
+      const lastString =
+        lastWord[lastWord.length - 3] +
+        lastWord[lastWord.length - 2] +
+        lastWord[lastWord.length - 1];
+      expect(lastString).toMatch("123");
+    }
   });
 });
