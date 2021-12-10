@@ -162,7 +162,7 @@ describe("10 - Implemente os casos de teste e a função `createMenu`", () => {
     retorno.order('coxinha');
     retorno.order('sopa');
     retorno.order('sopa');
-    expect(retorno.pay()).toEqual(23.700000000000003);
+    expect(retorno.pay()).toEqual(26.070000000000004);
   });
 });
 

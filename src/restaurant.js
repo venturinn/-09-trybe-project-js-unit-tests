@@ -57,18 +57,18 @@
 
 //------------------------------------------------------------------------------------------
 
-// PASSO 3: Crie uma função, separada da função `createMenu()`, que, dada uma string recebida por parâmetro, 
+// PASSO 3: Crie uma função, separada da função `createMenu()`, que, dada uma string recebida por parâmetro,
 // adiciona essa string ao array de `objetoRetornado.consumption`. Adicione essa função à chave `order`.
-// DICA: para criar isso, você pode: 
+// DICA: para criar isso, você pode:
 // - Definir a função `createMenu()`
-// - Definir o objeto que a `createMenu()` retorna, mas separadamente 
+// - Definir o objeto que a `createMenu()` retorna, mas separadamente
 // - E, depois, definir a função que será atribuída a `order`.
 // ```
 // const restaurant = {}
 //
 // const createMenu = (myMenu) => // Lógica que edita o objeto `restaurant`
 //
-// const orderFromMenu = (request) => // Lógica que adiciona à chave `consumption` de `restaurant` a string recebida no parâmetro `request`. 
+// const orderFromMenu = (request) => // Lógica que adiciona à chave `consumption` de `restaurant` a string recebida no parâmetro `request`.
 // // Essa função deve ser associada à chave `order` de `restaurant`
 // ```
 // Agora faça o TESTE 6 no arquivo `tests/restaurant.spec.js`.
@@ -80,50 +80,50 @@
 // DICA: para isso, você precisará percorrer tanto o objeto da chave `food` quanto o objeto da chave `drink`.
 
 const createMenu = (create) => {
-const restaurant = {
-consumption: [],
-order: (string) => { restaurant.consumption.push(string); },
-fetchMenu: () => create,
-pay: () => {
-  let payTotal = 0;
+  let payTotal = 0; // Valor final da conta do cliente.
+  let consumo; // Varial usada para armazenar cada item de consumo durante a iteração de preços.
 
-  const foodKeys = Object.keys(restaurant.fetchMenu().food);
-  const drinkKeys = Object.keys(restaurant.fetchMenu().drink);
+  const restaurant = {
 
-  console.log(foodKeys);
-  console.log(drinkKeys);
+    consumption: [],
 
-  for (let i = 0; i < restaurant.consumption.length; i += 1) {
-  let consumo = restaurant.consumption[i];
+    order: (string) => {
+      restaurant.consumption.push(string);
+    },
 
-  for (let j = 0; j < foodKeys.length; j += 1) {
-    if (foodKeys[j] === consumo) {
-      payTotal += restaurant.fetchMenu().food[foodKeys[j]];
-    }
-  }
-  for (let j = 0; j < drinkKeys.length; j += 1) {
-    if (drinkKeys[j] === consumo) {
-      payTotal += restaurant.fetchMenu().drink[drinkKeys[j]];
-    }
-  }
-}
-return payTotal
-},
-};
+    fetchMenu: () => create,
 
-return restaurant;
+    // Função para somar na conta os gastos com food.
+    foodSum: () => {
+      const foodKeys = Object.keys(restaurant.fetchMenu().food);
+      for (let j = 0; j < foodKeys.length; j += 1) {
+        if (foodKeys[j] === consumo) {
+          payTotal += restaurant.fetchMenu().food[foodKeys[j]];
+        }
+      }
+    },
+
+    // Função para somar na conta os gastos com drink.
+    drinkSum: () => {
+      const drinkKeys = Object.keys(restaurant.fetchMenu().drink);
+      for (let j = 0; j < drinkKeys.length; j += 1) {
+        if (drinkKeys[j] === consumo) {
+          payTotal += restaurant.fetchMenu().drink[drinkKeys[j]];
+        }
+      }
+    },
+
+    // Função para verificar de houve consumo e chamar as funções para verificar o preço de cada item.
+    pay: () => {
+      for (let i = 0; i < restaurant.consumption.length; i += 1) {
+        consumo = restaurant.consumption[i];
+        restaurant.foodSum();
+        restaurant.drinkSum();
+      }
+      return (payTotal * 110) / 100; // retorna valor total com +10%
+    },
+  };
+  return restaurant;
 };
 
 module.exports = createMenu;
-
-  const meuRestaurante = createMenu({ food: { coxinha: 3.9, sopa: 9.9 }, drink: { agua: 3.9, cerveja: 6.9 } });
-
-  console.log(meuRestaurante.fetchMenu()); // Retorno: { food: {'coxinha': 3.9, 'sopa': 9.9}, drink: {'agua': 3.9, 'cerveja': 6.9} }
-
-  console.log(meuRestaurante.order('coxinha')); // Retorno: undefined
-
-  //console.log(meuRestaurante.order('agua'));
-
-  console.log(meuRestaurante.consumption); // Retorno: ['coxinha']
-
-  console.log(meuRestaurante.pay()); // Retorno: 3.9
