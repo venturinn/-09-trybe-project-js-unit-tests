@@ -125,18 +125,46 @@ describe("10 - Implemente os casos de teste e a função `createMenu`", () => {
   });
 
   it("TESTE 3: Verifique se o menu passado pra função createMenu é identico ao menu recuperado pela função 'objetoRetornado.fetchMenu", () => {
-    const retorno = createMenu({ cerveja: {}, vinho: {}, suco: [], prato: 'churrasco' });
-    expect(retorno.fetchMenu()).toEqual({ cerveja: {}, vinho: {}, suco: [], prato: 'churrasco' });
+    const retorno = createMenu({ food: {'coxinha': 3.9, 'sopa': 9.9}, drink: {'agua': 3.9, 'cerveja': 6.9} });
+    expect(retorno.fetchMenu()).toEqual({ food: {'coxinha': 3.9, 'sopa': 9.9}, drink: {'agua': 3.9, 'cerveja': 6.9} });
   });
 
   it("TESTE 4: Verifique se 'objetoRetornado.consumption', após a criação do menu, retorna um array vazio.", () => {
-    const retorno = createMenu({ cerveja: {}, vinho: {}, suco: [], prato: 'churrasco' });
+    const retorno = createMenu({ food: {'coxinha': 3.9, 'sopa': 9.9}, drink: {'agua': 3.9, 'cerveja': 6.9} });
     expect(retorno.consumption).toEqual([]);
   });
 
   it("TESTE 5: Verifique se, ao chamar uma função associada à chave `order` no objeto retornado, passando uma string como parâmetro (como `objetoRetornado.order('coxinha')`), tal string é adicionada ao array retornado em `objetoRetornado.consumption`", () => {
-    const retorno = createMenu({ cerveja: {}, vinho: {}, suco: [], prato: 'churrasco' });
-    retorno.order('bolo de milho');
-    expect(retorno.consumption).toEqual(['bolo de milho']);
+    const retorno = createMenu({ food: {'coxinha': 3.9, 'sopa': 9.9}, drink: {'agua': 3.9, 'cerveja': 6.9} });
+    retorno.order('coxinha');
+    expect(retorno.consumption).toEqual(['coxinha']);
+  });
+
+  it("TESTE 6: Verifique se, ao adicionar três pedidos, dentre bebidas e comidas, o array `objetoRetornado.consumption` contém os itens pedidos.", () => {
+    const retorno = createMenu({ food: {'coxinha': 3.9, 'sopa': 9.9}, drink: {'agua': 3.9, 'cerveja': 6.9} });
+    retorno.order('coxinha');
+    retorno.order('sopa');
+    retorno.order('agua');
+    retorno.order('cerveja');
+    expect(retorno.consumption).toEqual(['coxinha', 'sopa', 'agua', 'cerveja']);
+  });
+
+  it("TESTE 7: Verifique se a função `order` aceita que pedidos repetidos sejam acrescidos a consumption.", () => {
+    const retorno = createMenu({ food: {'coxinha': 3.9, 'sopa': 9.9}, drink: {'agua': 3.9, 'cerveja': 6.9} });
+    retorno.order('coxinha');
+    retorno.order('sopa');
+    retorno.order('sopa');
+    expect(retorno.consumption).toEqual(['coxinha', 'sopa', 'sopa']);
+  });
+
+  it("TESTE 8: Verifique se, ao chamar `objetoRetornado.pay()`, retorna-se a soma dos preços de tudo que foi pedido, conforme registrado em `objetoRetornado.consumption`", () => {
+    const retorno = createMenu({ food: {'coxinha': 3.9, 'sopa': 9.9}, drink: {'agua': 3.9, 'cerveja': 6.9} });
+    retorno.order('coxinha');
+    retorno.order('sopa');
+    retorno.order('sopa');
+    expect(retorno.pay()).toEqual(23.700000000000003);
   });
 });
+
+
+
